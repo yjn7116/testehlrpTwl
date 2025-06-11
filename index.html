@@ -1,169 +1,157 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>토론최</title>
-<style>
-  body, html {
-    margin: 0; padding: 0; height: 100%;
-    font-family: "Noto Sans KR", sans-serif;
-    background: #f9f9f9;
-    color: #222;
-    transition: background-color 0.5s ease;
-  }
-  .container {
-    display: flex;
-    height: 100vh;
-  }
-  .side-space {
-    flex: 1;
-    background: #f0f0f0;
-  }
-  .content {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    box-sizing: border-box;
-    background: #fff;
-  }
-  header {
-    position: relative;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #ccc;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  h1 {
-    margin: 0;
-    font-weight: 700;
-    font-size: 1.5rem;
-    flex-grow: 1;
-  }
-  .admin-link, .minjo-link {
-    font-size: 0.9rem;
-    color: #aaa;
-    text-decoration: none;
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.3s ease;
-  }
-  .admin-link:hover, .minjo-link:hover {
-    color: #666;
-  }
-  .discussion-area {
-    flex-grow: 1;
-    background: #fafafa;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 15px;
-    overflow-y: auto;
-  }
-  .comment {
-    max-width: 60%;
-    margin-bottom: 10px;
-    padding: 10px 15px;
-    border-radius: 15px;
-    position: relative;
-    font-size: 0.95rem;
-    word-break: break-word;
-  }
-  .comment.left {
-    background: #ffdddd;
-    color: #a00;
-    margin-right: auto;
-    border-bottom-left-radius: 0;
-  }
-  .comment.right {
-    background: #ddffdd;
-    color: #080;
-    margin-left: auto;
-    border-bottom-right-radius: 0;
-  }
-  .comment.left::after {
-    content: "";
-    position: absolute;
-    left: -10px;
-    top: 10px;
-    border-width: 10px 10px 10px 0;
-    border-style: solid;
-    border-color: transparent #ffdddd transparent transparent;
-  }
-  .comment.right::after {
-    content: "";
-    position: absolute;
-    right: -10px;
-    top: 10px;
-    border-width: 10px 0 10px 10px;
-    border-style: solid;
-    border-color: transparent transparent transparent #ddffdd;
-  }
-  .nickname {
-    font-weight: 700;
-    margin-bottom: 3px;
-    font-size: 0.85rem;
-    opacity: 0.7;
-  }
-  .input-area {
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  input[type="text"], textarea {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    width: 100%;
-    box-sizing: border-box;
-    resize: vertical;
-  }
-  .radio-group {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    font-size: 0.95rem;
-  }
-  button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  button:hover {
-    background-color: #45a045;
-  }
-  label[for="bgcolorPicker"] {
-    font-weight: 700;
-    margin-top: 10px;
-  }
-  #bgcolorPicker {
-    width: 50px;
-    height: 30px;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>토론최 검열 없는 진짜 익명 토론사이트</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: "Noto Sans KR", sans-serif;
+      background: #f9f9f9;
+      color: #222;
+    }
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+    .side-space {
+      flex: 1;
+      background: #f0f0f0;
+    }
+    .content {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
+      background: #fff;
+    }
+    header {
+      position: relative;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ccc;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    .admin-link {
+      font-size: 0.9rem;
+      color: #aaa;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+      display: inline-block;
+      margin-top: 5px;
+    }
+    .admin-link:hover {
+      color: #888;
+    }
+    .discussion-area {
+      flex-grow: 1;
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      overflow-y: auto;
+    }
+    /* 댓글 스타일 */
+    .comment {
+      max-width: 60%;
+      margin-bottom: 10px;
+      padding: 10px 15px;
+      border-radius: 15px;
+      position: relative;
+      font-size: 0.95rem;
+      word-break: break-word;
+    }
+    .comment.left {
+      background: #ffdddd;
+      color: #a00;
+      margin-right: auto;
+      border-bottom-left-radius: 0;
+    }
+    .comment.right {
+      background: #ddffdd;
+      color: #080;
+      margin-left: auto;
+      border-bottom-right-radius: 0;
+    }
+    .comment.left::after {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: 10px;
+      border-width: 10px 10px 10px 0;
+      border-style: solid;
+      border-color: transparent #ffdddd transparent transparent;
+    }
+    .comment.right::after {
+      content: "";
+      position: absolute;
+      right: -10px;
+      top: 10px;
+      border-width: 10px 0 10px 10px;
+      border-style: solid;
+      border-color: transparent transparent transparent #ddffdd;
+    }
+    .nickname {
+      font-weight: 700;
+      margin-bottom: 3px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    .input-area {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    input[type="text"], textarea {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a045;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="side-space"></div>
     <main class="content">
       <header>
-        <h1>오늘의 토론 주제: <span id="topic">로딩 중...</span></h1>
-        <a href="admin.html" class="admin-link">검열 없는 진짜 익명 토론 사이트</a>
-        <a href="https://minjoopolice.com/" target="_blank" class="minjo-link">민주 파출소</a>
+        <h1>오늘의 토론 주제: <span id="topic">불러오는 중...</span></h1>
+        <a href="admin.html" class="admin-link">검열 없는 진짜 익명 토론사이트</a><br />
+        <a href="https://minjoopolice.com/" target="_blank" rel="noopener" class="admin-link" style="font-size:0.85rem;">
+          민주 파출소
+        </a>
       </header>
-
+      
       <section class="discussion-area" id="discussion">
         <p style="color:#666; text-align:center;">댓글이 아직 없습니다.</p>
       </section>
@@ -178,9 +166,6 @@
         </div>
 
         <button id="sendBtn">댓글 달기</button>
-
-        <label for="bgcolorPicker">사이트 배경색 변경</label>
-        <input type="color" id="bgcolorPicker" value="#f9f9f9" />
       </section>
     </main>
     <div class="side-space"></div>
@@ -188,17 +173,16 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getDatabase, ref, onValue, push, set } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+    import { getDatabase, ref, onValue, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
 
-    // 여기에 Firebase 설정 넣기
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      databaseURL: "YOUR_DATABASE_URL",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyCFq__DB_6TnNVUG4Z3De7vpRnxynn8MjE",
+      authDomain: "debateshop-cbeb4.firebaseapp.com",
+      databaseURL: "https://debateshop-cbeb4-default-rtdb.firebaseio.com",
+      projectId: "debateshop-cbeb4",
+      storageBucket: "debateshop-cbeb4.appspot.com",
+      messagingSenderId: "460568591399",
+      appId: "1:460568591399:web:e462862283d9ee69e16202"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -209,63 +193,68 @@
     const nicknameInput = document.getElementById('nickname');
     const commentInput = document.getElementById('comment');
     const sendBtn = document.getElementById('sendBtn');
-    const bgcolorPicker = document.getElementById('bgcolorPicker');
 
-    const defaultNickname = "최";
+    // 기본 닉네임 '최' 설정
+    if (!nicknameInput.value) nicknameInput.value = '최';
 
-    // 토론 주제 실시간 표시
+    // 실시간 토론 주제 읽기
     const topicRef = ref(db, 'topic');
-    onValue(topicRef, (snap) => {
-      topicEl.textContent = snap.val() || "토론 주제가 설정되지 않았습니다.";
+    onValue(topicRef, (snapshot) => {
+      const topic = snapshot.val();
+      topicEl.textContent = topic || "토론 주제가 설정되지 않았습니다.";
     });
 
-    // 댓글 실시간 표시
+    // 실시간 댓글 읽기
     const commentsRef = ref(db, 'comments');
-    onValue(commentsRef, (snap) => {
-      const comments = snap.val();
-      discussionEl.innerHTML = '';
+    onValue(commentsRef, (snapshot) => {
+      const comments = snapshot.val();
+      discussionEl.innerHTML = ''; // 초기화
+
       if (!comments) {
         discussionEl.innerHTML = '<p style="color:#666; text-align:center;">댓글이 아직 없습니다.</p>';
         return;
       }
+
       Object.entries(comments).forEach(([key, comment]) => {
         const div = document.createElement('div');
-        div.classList.add('comment', comment.side === 'pro' ? 'right' : 'left');
-        div.innerHTML = `<div class="nickname">${comment.nickname}</div>${comment.text}`;
+        div.classList.add('comment');
+        div.classList.add(comment.side === 'pro' ? 'right' : 'left');
+
+        const nick = document.createElement('div');
+        nick.className = 'nickname';
+        nick.textContent = comment.nickname;
+
+        const text = document.createElement('div');
+        text.textContent = comment.text;
+
+        div.appendChild(nick);
+        div.appendChild(text);
         discussionEl.appendChild(div);
       });
+
+      // 스크롤 최하단으로
+      discussionEl.scrollTop = discussionEl.scrollHeight;
     });
 
-    // 댓글 쓰기
-    sendBtn.onclick = () => {
-      const nickname = nicknameInput.value.trim() || defaultNickname;
+    sendBtn.addEventListener('click', () => {
+      const nickname = nicknameInput.value.trim() || '최';
       const text = commentInput.value.trim();
       const side = document.querySelector('input[name="side"]:checked').value;
+
       if (!text) {
-        alert("댓글 내용을 입력하세요.");
+        alert('댓글 내용을 입력하세요.');
         return;
       }
+
       const newCommentRef = push(commentsRef);
       set(newCommentRef, {
         nickname,
         text,
         side,
-        timestamp: Date.now()
+        timestamp: serverTimestamp()
       });
+
       commentInput.value = '';
-    };
-
-    // 배경색 실시간 동기화
-    const bgColorRef = ref(db, 'bgcolor');
-    onValue(bgColorRef, (snap) => {
-      const color = snap.val() || '#f9f9f9';
-      document.body.style.backgroundColor = color;
-      bgcolorPicker.value = color;
-    });
-
-    bgcolorPicker.addEventListener('input', () => {
-      const color = bgcolorPicker.value;
-      set(bgColorRef, color);
     });
   </script>
 </body>
