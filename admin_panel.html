@@ -1,141 +1,70 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>관리자 패널</title>
-<style>
-  body {
-    font-family: "Noto Sans KR", sans-serif;
-    margin: 40px auto;
-    max-width: 600px;
-  }
-  h1 {
-    text-align: center;
-  }
-  label {
-    font-weight: bold;
-    display: block;
-    margin-top: 20px;
-  }
-  input[type=text] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    box-sizing: border-box;
-    font-size: 1rem;
-  }
-  button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    font-size: 1rem;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  button:hover {
-    background-color: #45a045;
-  }
-  #logoutBtn {
-    background-color: #f44336;
-    margin-top: 10px;
-  }
-  #logoutBtn:hover {
-    background-color: #d32f2f;
-  }
-  #msg {
-    margin-top: 15px;
-    font-weight: bold;
-    color: green;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>관리자 페이지</title>
+  <style>
+    body {
+      font-family: "Noto Sans KR", sans-serif;
+      background: #f9f9f9;
+      margin: 0; padding: 20px;
+      color: #222;
+    }
+    h1 {
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    label, input, button {
+      font-size: 1rem;
+    }
+    input[type="text"] {
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .btn-exit {
+      background-color: #aaa;
+    }
+    .btn-exit:hover {
+      background-color: #666;
+    }
+  </style>
 </head>
 <body>
+  <h1>관리자 페이지</h1>
+  
+  <label for="topicInput">토론 주제 변경:</label><br />
+  <input type="text" id="topicInput" placeholder="새 토론 주제 입력" />
+  <br />
+  <button id="changeTopicBtn">주제 변경</button>
+  <button id="clearCommentsBtn">댓글 초기화</button>
+  <button id="exitBtn" class="btn-exit">나가기</button>
 
-<h1>관리자 패널</h1>
+  <script>
+    // TODO: 여기에 기존 관리자 페이지 스크립트 내용 붙여넣기
 
-<label for="topicInput">토론 주제 변경</label>
-<input type="text" id="topicInput" placeholder="새 토론 주제를 입력하세요" />
-
-<button id="changeTopicBtn">토론 주제 변경</button>
-
-<button id="clearCommentsBtn" style="background-color:#f44336;">댓글 초기화</button>
-
-<button id="logoutBtn">로그아웃</button>
-
-<div id="msg"></div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getDatabase, ref, set, remove, get } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
-
-  // Firebase 설정 (너가 쓰는 값으로 바꿔줘)
-  const firebaseConfig = {
-    apiKey: "AIzaSyCFq__DB_6TnNVUG4Z3De7vpRnxynn8MjE",
-    authDomain: "debateshop-cbeb4.firebaseapp.com",
-    databaseURL: "https://debateshop-cbeb4-default-rtdb.firebaseio.com",
-    projectId: "debateshop-cbeb4",
-    storageBucket: "debateshop-cbeb4.firebasestorage.app",
-    messagingSenderId: "460568591399",
-    appId: "1:460568591399:web:e462862283d9ee69e16202"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-
-  // 로그인 체크 (안되면 로그인 페이지로 이동)
-  if (sessionStorage.getItem('isAdmin') !== 'true') {
-    alert("관리자 로그인이 필요합니다.");
-    window.location.href = "admin.html";
-  }
-
-  const topicInput = document.getElementById('topicInput');
-  const changeTopicBtn = document.getElementById('changeTopicBtn');
-  const clearCommentsBtn = document.getElementById('clearCommentsBtn');
-  const logoutBtn = document.getElementById('logoutBtn');
-  const msg = document.getElementById('msg');
-
-  // 현재 토론 주제 불러오기
-  async function loadTopic() {
-    const topicRef = ref(db, 'topic');
-    const snapshot = await get(topicRef);
-    if (snapshot.exists()) {
-      topicInput.value = snapshot.val();
-    } else {
-      topicInput.value = "";
-    }
-  }
-
-  loadTopic();
-
-  // 토론 주제 변경 저장
-  changeTopicBtn.onclick = async () => {
-    const newTopic = topicInput.value.trim();
-    if (newTopic === "") {
-      alert("토론 주제를 입력하세요.");
-      return;
-    }
-    await set(ref(db, 'topic'), newTopic);
-    msg.textContent = "토론 주제가 변경되었습니다.";
-    setTimeout(() => { msg.textContent = ""; }, 3000);
-  };
-
-  // 댓글 초기화
-  clearCommentsBtn.onclick = async () => {
-    if (!confirm("댓글을 모두 삭제하시겠습니까?")) return;
-    await remove(ref(db, 'comments'));
-    msg.textContent = "댓글이 초기화되었습니다.";
-    setTimeout(() => { msg.textContent = ""; }, 3000);
-  };
-
-  // 로그아웃
-  logoutBtn.onclick = () => {
-    sessionStorage.removeItem('isAdmin');
-    window.location.href = "admin.html";
-  };
-</script>
-
+    const exitBtn = document.getElementById('exitBtn');
+    exitBtn.addEventListener('click', () => {
+      window.location.href = "index.html";  // 메인 페이지로 이동
+    });
+  </script>
 </body>
 </html>
