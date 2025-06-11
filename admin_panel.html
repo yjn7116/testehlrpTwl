@@ -46,6 +46,11 @@
     .btn-exit:hover {
       background-color: #666;
     }
+    #message {
+      margin-top: 15px;
+      color: green;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
@@ -58,12 +63,60 @@
   <button id="clearCommentsBtn">댓글 초기화</button>
   <button id="exitBtn" class="btn-exit">나가기</button>
 
-  <script>
-    // TODO: 여기에 기존 관리자 페이지 스크립트 내용 붙여넣기
+  <div id="message"></div>
 
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getDatabase, ref, set, remove } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCFq__DB_6TnNVUG4Z3De7vpRnxynn8MjE",
+      authDomain: "debateshop-cbeb4.firebaseapp.com",
+      databaseURL: "https://debateshop-cbeb4-default-rtdb.firebaseio.com",
+      projectId: "debateshop-cbeb4",
+      storageBucket: "debateshop-cbeb4.firebasestorage.app",
+      messagingSenderId: "460568591399",
+      appId: "1:460568591399:web:e462862283d9ee69e16202"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const topicInput = document.getElementById('topicInput');
+    const changeTopicBtn = document.getElementById('changeTopicBtn');
+    const clearCommentsBtn = document.getElementById('clearCommentsBtn');
     const exitBtn = document.getElementById('exitBtn');
+    const messageDiv = document.getElementById('message');
+
+    changeTopicBtn.addEventListener('click', () => {
+      const newTopic = topicInput.value.trim();
+      if (!newTopic) {
+        alert('토론 주제를 입력하세요.');
+        return;
+      }
+      set(ref(db, 'topic'), newTopic)
+        .then(() => {
+          messageDiv.textContent = "토론 주제가 성공적으로 변경되었습니다.";
+          topicInput.value = "";
+        })
+        .catch((error) => {
+          alert("토론 주제 변경 중 오류가 발생했습니다: " + error.message);
+        });
+    });
+
+    clearCommentsBtn.addEventListener('click', () => {
+      if (!confirm('모든 댓글을 초기화하시겠습니까?')) return;
+      remove(ref(db, 'comments'))
+        .then(() => {
+          messageDiv.textContent = "댓글이 초기화되었습니다.";
+        })
+        .catch((error) => {
+          alert("댓글 초기화 중 오류가 발생했습니다: " + error.message);
+        });
+    });
+
     exitBtn.addEventListener('click', () => {
-      window.location.href = "index.html";  // 메인 페이지로 이동
+      window.location.href = "index.html";
     });
   </script>
 </body>
